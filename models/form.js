@@ -18,8 +18,8 @@ const userSchema = Schema({
 
 userSchema.pre('save', function (next) {
     if (this.isModified('password')) {
-        this.password = bcrypt.hash(this.password, 12); 
-        this.cpassword = bcrypt.hash(this.cpassword, 12); 
+        this.password = bcrypt.hash(this.password, 12);
+        this.cpassword = bcrypt.hash(this.cpassword, 12);
     }
     next();
 })

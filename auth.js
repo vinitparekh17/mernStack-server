@@ -30,14 +30,14 @@ router.post("/signup", async (req, res) => {
     }
 })
 // Signin route 
-router.post("/signin", (req, res) => {
+router.post("/signin", async (req, res) => {
     let token;
     try {
         const { email, password } = req.body;
         if (!email && !password) {
             return res.status(400).json({ error: "Details not filled!" })
         }
-        
+
         // finding the user in db 
         const userLogin = await Form.findOne({ email: email });
 
