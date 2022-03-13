@@ -1,36 +1,37 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
+const { v4 } = require("uuid")
 const userSchema = Schema({
-    name: String,
-    lastname: String,
-    email: String,
-    password: String,
-    cpassword: String,
+    "firstName": String,
+    "lastName": String,
+    "email": String,
+    "password": String,
+    "cpassword": String,
     tokens: [
         {
-            token: String
+            "token": String
         }
     ]
 });
 
 // securing password 
 
-userSchema.pre('save', function (next) {
-    if (this.isModified('password')) {
-        this.password = bcrypt.hash(this.password, 12);
-        this.cpassword = bcrypt.hash(this.cpassword, 12);
-    }
-    next();
-})
+// userSchema.pre('save', function (next) {
+//     if (this.isModified('password')) {
+//         this.password = bcrypt.hash(this.password, 12);
+//         this.cpassword = bcrypt.hash(this.cpassword, 12);
+//     }
+//     next();
+// })
 
 // generating token
 
 userSchema.methods.generateAuthToken = async function () {
     try {
-        let token = jwt.sign({ _id: this._id }, process.env.KEY);
-        this.tokens = this.tokens.concat({ token: token });
-        await this.save();
+        let token = v4();
+        console.log(token);
+        await token.save();
         return token;
     } catch (e) {
         console.log(e);
